@@ -1,0 +1,19 @@
+{
+  "name": "ppl-test",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
+  },
+  "dependencies": {
+    "aws-sdk": "^2.828.0",
+    "next": "10.0.5",
+    "react": "17.0.1",
+    "react-dom": "17.0.1",
+    "react-hook-form": "^6.14.2",
+    "react-icons": "^4.1.0",
+    "styled-components": "^5.2.1"
+  }
+}
