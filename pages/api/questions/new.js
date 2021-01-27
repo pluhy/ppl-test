@@ -1,10 +1,9 @@
 const AWS = require('aws-sdk');
+import { awsConfig } from '../../../config/config';
 
 const putQuestion = async (req, res) => {
   const item = req.body;
-  AWS.config.update({
-    region: 'eu-central-1',
-  });
+  AWS.config.update(awsConfig);
   const documentClient = new AWS.DynamoDB.DocumentClient();
   const params = {
     TableName: 'questions',

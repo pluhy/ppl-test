@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 import { useState, useEffect  } from 'react'
 import { FaExclamationCircle } from 'react-icons/fa';
 import Link from 'next/link'
-import { categories } from '../../config/config';
+import { categories, awsConfig } from '../../config/config';
 
 const ErrorMessageWrapper = styled.span`
   color: red;
@@ -64,9 +64,8 @@ const SubmitButton = styled.button`
 `;
 
 const fetchQuestions = async (categoryId) => {
-  AWS.config.update({
-    region: 'eu-central-1',
-  });
+  console.log(fetchQuestions)
+  AWS.config.update(awsConfig);
   const documentClient = new AWS.DynamoDB.DocumentClient();
   const params = {
     TableName: 'questions',
@@ -102,6 +101,9 @@ export const getServerSideProps = async (context) => {
     questionsResponse = await fetchQuestions(categoryId);
   } catch (e) {
     errorMessage = 'Nepodařilo se načíst otázky. Zkuste to prosím znovu.';
+    return {
+      props: { categoryId, questions, errorMessage }
+    }; 
   }
   questions = questionsResponse && questionsResponse.Items;
 
