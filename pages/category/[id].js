@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form';
 import { useState, useEffect  } from 'react'
 import { FaExclamationCircle } from 'react-icons/fa';
 import Link from 'next/link'
+import Image from 'next/image'
 import { categories, awsConfig } from '../../config/config';
 
 const ErrorMessageWrapper = styled.span`
@@ -113,7 +114,7 @@ export const getServerSideProps = async (context) => {
 }
 
 const CategoryQuestions = ({ categoryId, questions, errorMessage }) => {
-  const NUMBER_OF_QUESTIONS = 10;
+  const NUMBER_OF_QUESTIONS = 12;
   const [currentQuestions, setCurrentQuestions] = useState([]);
   const [answersScoring, setAnswersScoring] = useState(null);
   const { register, handleSubmit, errors, reset } = useForm();
@@ -202,6 +203,9 @@ const CategoryQuestions = ({ categoryId, questions, errorMessage }) => {
         {currentQuestions.map((question, i) => (
           <div key={question.questionId}>
             <QuestionText>{`${i + 1}) ${question.questionText}`}</QuestionText>
+            {question.imageName &&
+              <Image src={`/${question.imageName}.jpg`} width="128" height="128" />
+            }
             {errors.answers && errors.answers[question.questionId] &&
               <ErrorMessageWrapper>Zodpovězte prosím tuto otázku</ErrorMessageWrapper>
             }

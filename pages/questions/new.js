@@ -110,6 +110,7 @@ const NewQeustionForm = () => {
       categoryId: parseInt(questionData.category_id, 10),
       questionId: parseInt(questionData.question_id, 10),
       questionText: questionData.question_text,
+      ...(questionData.image_name && {imageName: questionData.image_name}),
       correctAnswerIndex: parseInt(questionData.correct_answer, 10),
       answers: answers,
     }
@@ -209,8 +210,12 @@ const NewQeustionForm = () => {
           <StyledInputControl type="number" name="question_id" ref={register({ required: true })} />
         </div>
         <div>
-          <label htmlFor ="question_id"> Text otázky:</label>
+          <label htmlFor ="question_text"> Text otázky:</label>
           <StyledTextarea name="question_text" ref={register({ required: true })}></StyledTextarea>
+        </div>
+        <div>
+          <label htmlFor ="image_name"> Obrázek:</label>
+          <StyledInputControl name="image_name" ref={register()} />
         </div>
         <h3>Odpovědi</h3>
           <AddAnswerButton type="button" onClick={addAnswer}>
