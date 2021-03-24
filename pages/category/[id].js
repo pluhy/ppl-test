@@ -65,7 +65,6 @@ const SubmitButton = styled.button`
 `;
 
 const fetchQuestions = async (categoryId) => {
-  console.log(fetchQuestions)
   AWS.config.update(awsConfig);
   const documentClient = new AWS.DynamoDB.DocumentClient();
   const params = {

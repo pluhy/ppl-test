@@ -2,6 +2,8 @@ import styled from 'styled-components';
 import { useForm } from 'react-hook-form';
 import { useState } from 'react';
 import { FaRegCheckCircle, FaExclamationCircle } from 'react-icons/fa';
+import { useRouter } from 'next/router'
+import useUser from '../../lib/useUser';
 
 const StyledInputControl = styled.input`
   width: 100%;
@@ -102,6 +104,11 @@ const NewQeustionForm = () => {
   });
   const [requestSuccessMessage, setRequestSuccessMessage] = useState('');
   const [requestErrorMessage, setRequestErrorMessage] = useState('');
+  const router = useRouter();
+  const { user } = useUser({
+    loginRoute: `/login?lastRoute=${router.pathname}`,
+    lastRoute: null
+  });
 
   const onSubmit = async (questionData) => {
     setRequestErrorMessage('');
@@ -178,6 +185,10 @@ const NewQeustionForm = () => {
   const getAnswerLetter = (answerNumber) => {
     return String.fromCharCode('a'.charCodeAt(0) + answerNumber);
   };
+
+  if (!user || user.isLoggedIn === false) {
+    return <div>Authorizing user...</div>
+  }
 
   return (
     <>
