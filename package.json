@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "aws-sdk": "^2.828.0",
-    "bcrypt": "^5.0.1",
+    "bcryptjs": "^2.4.3",
     "next": "10.0.5",
     "next-iron-session": "^4.1.12",
     "react": "17.0.1",

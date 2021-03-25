@@ -1,4 +1,4 @@
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 const AWS = require('aws-sdk');
 import { awsConfig } from '../../config/config';
 

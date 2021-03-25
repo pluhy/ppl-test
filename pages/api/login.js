@@ -1,5 +1,5 @@
 const AWS = require('aws-sdk');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 import { awsConfig } from '../../config/config';
 import withSession from '../../lib/session'
 
