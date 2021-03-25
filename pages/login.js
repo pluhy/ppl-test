@@ -4,6 +4,7 @@ import useUser from '../lib/useUser';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/router'
+import Link from 'next/link'
 
 const FormWrapper = styled.div`
   border-radius: 5px;
@@ -41,6 +42,11 @@ const ErrorMessageWrapper = styled.span`
   color: red;
 `;
 
+const RegisterLink = styled.div`
+  width: 92px;
+  margin: auto;
+`;
+
 const LoginForm = () => {
   const { register, handleSubmit } = useForm();
   const [errorMessage, setErrorMessage] = useState('');
@@ -50,18 +56,14 @@ const LoginForm = () => {
     lastRoute: router?.query?.lastRoute
   });
 
-  const onSubmit = async (logiFormData) => {
-    const loginData = {
-      ...logiFormData,
-    }
+  const onSubmit = async (loginFormData) => {
     let user;
-
     try {
       user = await mutateUser(
         fetch('/api/login', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(loginData),
+          body: JSON.stringify(loginFormData),
         })
       )
     } catch (error) {
@@ -69,33 +71,41 @@ const LoginForm = () => {
     }
     
     if (!user.isLoggedIn) {
-      setErrorMessage('Chybné uživatelské jméno')
+      setErrorMessage('Chybné uživatelské jméno nebo heslo, nebo nebyl uživatel aktivován.')
     }
   }
 
   return (
-    <FormWrapper>
-      {errorMessage && (
-        <p>
-          <ErrorMessageWrapper>
-            <FaExclamationCircle />
-            &nbsp;
-            {errorMessage}
-          </ErrorMessageWrapper>
-        </p>
-      )}
-      <form>
-          <div>
-            <label htmlFor ="username"> Uživatelské jméno:</label>
-            <StyledInputControl name="username" ref={register({ required: true })} />
-          </div>
-          <div>
-            <label htmlFor ="password"> Heslo:</label>
-            <StyledInputControl name="password" ref={register({ required: true })} />
-          </div>
-          <StyledSubmitButton onClick={handleSubmit(onSubmit)}>Přihlásit se</StyledSubmitButton>
-      </form>
-    </FormWrapper>
+    <>
+      <FormWrapper>
+        {errorMessage && (
+          <p>
+            <ErrorMessageWrapper>
+              <FaExclamationCircle />
+              &nbsp;
+              {errorMessage}
+            </ErrorMessageWrapper>
+          </p>
+        )}
+        <form>
+            <div>
+              <label htmlFor ="username"> Uživatelské jméno:</label>
+              <StyledInputControl name="username" ref={register({ required: true })} />
+            </div>
+            <div>
+              <label htmlFor ="password"> Heslo:</label>
+              <StyledInputControl name="password" ref={register({ required: true })} />
+            </div>
+            <StyledSubmitButton onClick={handleSubmit(onSubmit)}>Přihlásit se</StyledSubmitButton>
+        </form>
+        <RegisterLink>
+          <Link href="/register">
+            <a>Registrovat se</a>
+          </Link>
+        </RegisterLink>
+      </FormWrapper>
+
+    </>
   )
 }
 
