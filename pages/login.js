@@ -57,6 +57,7 @@ const LoginForm = () => {
   });
 
   const onSubmit = async (loginFormData) => {
+    setErrorMessage('');
     let user;
     try {
       user = await mutateUser(
@@ -94,7 +95,7 @@ const LoginForm = () => {
             </div>
             <div>
               <label htmlFor ="password"> Heslo:</label>
-              <StyledInputControl name="password" ref={register({ required: true })} />
+              <StyledInputControl name="password" type="password" ref={register({ required: true })} />
             </div>
             <StyledSubmitButton onClick={handleSubmit(onSubmit)}>Přihlásit se</StyledSubmitButton>
         </form>
