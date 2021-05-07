@@ -116,11 +116,19 @@ const CategoryQuestions = ({ categoryId, questions, errorMessage }) => {
   const NUMBER_OF_QUESTIONS = 12;
   const [currentQuestions, setCurrentQuestions] = useState([]);
   const [answersScoring, setAnswersScoring] = useState(null);
+  const [showQuestionNumbers, setShowQuestionNumbers] = useState(false);
   const { register, handleSubmit, errors, reset } = useForm();
+  const { 
+    register: registerSettings, 
+    handleSubmit: handleSubmitSettings,
+    errors: settingsErrors,
+    setValue: setSettingsValue,
+  } = useForm();
   
   
   useEffect(() => {
-    reloadQuestions();
+    reloadQuestions(NUMBER_OF_QUESTIONS);
+    setSettingsValue('numberOfQuestions', NUMBER_OF_QUESTIONS);
   }, []);
 
   const getRandomInt = (max) => {
@@ -139,12 +147,12 @@ const CategoryQuestions = ({ categoryId, questions, errorMessage }) => {
     return selectedQuestions;
   }
 
-  const reloadQuestions = () => {
-    const numberOfQuestions = questions.length > NUMBER_OF_QUESTIONS ? NUMBER_OF_QUESTIONS : questions.length;
-    const newQuestions = getRandomQuestions(questions, numberOfQuestions);
-    setCurrentQuestions(newQuestions);
+  const reloadQuestions = (numberOfQuestionsToReload) => {
+    const realNumberOfQuestions = questions.length > numberOfQuestionsToReload ? numberOfQuestionsToReload : questions.length;
+    const newQuestions = getRandomQuestions(questions, realNumberOfQuestions);
     setAnswersScoring(null);
     reset();
+    setCurrentQuestions(newQuestions);
   };
 
   const evaluateAnswers = (answers) => {
@@ -193,15 +201,20 @@ const CategoryQuestions = ({ categoryId, questions, errorMessage }) => {
         </ResultWrapper>
       )}
 
-      <ActionButton type="button" onClick={reloadQuestions}>Nové otázky</ActionButton>
+      <ActionButton type="button" onClick={() => reloadQuestions(numberOfQuestions)}>Nové otázky</ActionButton>
       <Link href="/">
         <ActionButton>Zpět na seznam okruhů</ActionButton>
       </Link>
+      <ActionButton type="button" onClick={() => {setShowQuestionNumbers(!showQuestionNumbers)}}>
+        {showQuestionNumbers ? "Skrýt" : "Zobrazit"} čísla otázek
+      </ActionButton>
+      <ActionButton onClick={handleSubmitSettings((settings) => {reloadQuestions(settings.numberOfQuestions)})}>Nastavit počet otázek</ActionButton>
+      <input type="text" name="numberOfQuestions" ref={registerSettings({ required: true })} />
 
       <form>
         {currentQuestions.map((question, i) => (
           <div key={question.questionId}>
-            <QuestionText>{`${i + 1}) ${question.questionText}`}</QuestionText>
+            <QuestionText>{`${i + 1}) ${showQuestionNumbers ? `[${question.questionId}]`: ''} ${question.questionText}`}</QuestionText>
             {question.imageName &&
               <Image src={`/${question.imageName}.jpg`} width="128" height="128" />
             }
