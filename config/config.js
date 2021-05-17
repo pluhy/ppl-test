@@ -1,7 +1,8 @@
 export const categories = {
   1: 'Letecký zákon a postupy ATC',
   2: 'Lidská výkonnost a omezení',
-  3: 'Meteorologie'
+  3: 'Meteorologie',
+  9: 'Navigace',
 };
 
 export const awsConfig = {
