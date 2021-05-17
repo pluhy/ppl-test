@@ -201,7 +201,6 @@ const CategoryQuestions = ({ categoryId, questions, errorMessage }) => {
         </ResultWrapper>
       )}
 
-      <ActionButton type="button" onClick={() => reloadQuestions(numberOfQuestions)}>Nové otázky</ActionButton>
       <Link href="/">
         <ActionButton>Zpět na seznam okruhů</ActionButton>
       </Link>
