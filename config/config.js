@@ -4,6 +4,7 @@ export const categories = {
   3: 'Meteorologie',
   4: 'Komunikace',
   5: 'Letové zásady',
+  6: 'Provozní postupy',
   9: 'Navigace',
 };
 
