@@ -3,6 +3,7 @@ export const categories = {
   2: 'Lidská výkonnost a omezení',
   3: 'Meteorologie',
   4: 'Komunikace',
+  5: 'Letové zásady',
   9: 'Navigace',
 };
 
