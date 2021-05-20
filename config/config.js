@@ -5,6 +5,7 @@ export const categories = {
   4: 'Komunikace',
   5: 'Letové zásady',
   6: 'Provozní postupy',
+  7: 'Provedení a plánování letu',
   9: 'Navigace',
 };
 
