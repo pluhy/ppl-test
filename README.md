@@ -1,34 +1,39 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+## ppl-test
 
-## Getting Started
+This is a simple quizz application. With current deployment it is used together with database containing CAA (Civil Aviation Authority) questions for PPL/LAPL exams. Questions and answers are available in czech language only.
 
-First, run the development server:
+This application has been created for personal purposes, when preparing for the PPL exam. It has only limited functionality and design. I am sharing it "as is". Feel free to fork it or submit a PR, if you would like to fix or improve anything.
 
-```bash
-npm run dev
-# or
-yarn dev
-```
+It can be easily used for any other questions/answers. For details see the "For developers" section.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### For users
+Application is currently available here https://ppl-test.vercel.app/
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+There is no guarantee, the questions and answers are correct and up-to-date. Questions have been copied manually from the PDF files provided by CAA (https://www.caa.cz/zkusebni-otazky-pro-zkousky-teoretickych-znalosti-ppl-lapl/).
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
+### For developers
+This web application is based on Next.js. It is connected to AWS DynamoDB, holding the users and questions data:
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+#### users:
+- username (string)
+- active (number 1|0)
+- password (string)
 
-## Learn More
+#### questions:
+- answers (array of strings)
+- categoryId (number - partition key)
+- correctAnswerIndex (number)
+- questionId (number - sort key)
+- questionText (string)
 
-To learn more about Next.js, take a look at the following resources:
+If you want to use this app for different purposes, you can create your own tables in AWS. AWS config is taken from following environment variables:
+- PPL_TEST_AWS_REGION
+- PPL_TEST_AWS_ACCESS_KEY_ID
+- PPL_TEST_AWS_SECRET_ACCESS_KEY
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+They are read in `config/config.js`, so you can change the environment variables names there, if needed.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+Currently, there is automatic deployment to Vercel set up. Environment variables are defined there, so that database with the CAA questions is used.
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/import?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+#### Users management
+There is a possibility to restrict some pages only for authorized users. Currently only the UI for creating new questions (`/questions/new`) is restricted. There is a very basic registration form (`/register`), which creates a new user in the `users` table in AWS DynamoDB and sets the `active` flag to `0`. Administrator must set it to `1` manually, so that user is able to log in.

@@ -213,10 +213,14 @@ const CategoryQuestions = ({ categoryId, questions, errorMessage }) => {
       <form>
         {currentQuestions.map((question, i) => (
           <div key={question.questionId}>
-            <QuestionText>{`${i + 1}) ${showQuestionNumbers ? `[${question.questionId}]`: ''} ${question.questionText}`}</QuestionText>
-            {question.imageName &&
-              <Image src={`/${question.imageName}.jpg`} width="128" height="128" />
-            }
+            <QuestionText>
+              {`${i + 1}) ${showQuestionNumbers ? `[${question.questionId}]`: ''} ${question.questionText}`}
+              {question.imageName &&
+                <div>
+                  <a href={`/${question.imageName}.jpg`} target="_blank">{question.imageName}</a>
+                </div>
+              }
+            </QuestionText>
             {errors.answers && errors.answers[question.questionId] &&
               <ErrorMessageWrapper>Zodpovězte prosím tuto otázku</ErrorMessageWrapper>
             }
