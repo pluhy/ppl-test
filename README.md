@@ -36,4 +36,4 @@ They are read in `config/config.js`, so you can change the environment variables
 Currently, there is automatic deployment to Vercel set up. Environment variables are defined there, so that database with the CAA questions is used.
 
 #### Users management
-There is a possibility to restrict some pages only for authorized users. Currently only the UI for creating new questions (`/questions/new`) is restricted. There is a very basic registration form (`/register`), which creates a new user in the `users` table in AWS DynamoDB and sets the `active` flag to `0`. Administrator must set it to `1` manually, so that user is able to log in.
+There is a possibility to allow access to some pages only for authorized users. Currently, only the UI for creating new questions (`/questions/new`) is restricted. There is a very basic registration form (`/register`), which creates a new user in the `users` table in AWS DynamoDB and sets the `active` flag to `0`. Administrator must set it to `1` manually, so that user is able to log in.
