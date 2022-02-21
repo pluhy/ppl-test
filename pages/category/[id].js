@@ -6,6 +6,7 @@ import { FaExclamationCircle } from 'react-icons/fa';
 import Link from 'next/link'
 import Image from 'next/image'
 import { categories, awsConfig } from '../../config/config';
+import { event } from '../../lib/googleAnalytics';
 
 const ErrorMessageWrapper = styled.span`
   color: red;
@@ -155,6 +156,17 @@ const CategoryQuestions = ({ categoryId, questions, errorMessage }) => {
     setCurrentQuestions(newQuestions);
   };
 
+  const sendAnswersSubmittedEvent = (answersScoring) => {
+    event({
+      action: 'answers_submitted',
+      params: {
+        event_category: categoryId,
+        event_label: categories[categoryId],
+        value: answersScoring && Math.round(answersScoring.correctTotal / currentQuestions.length * 100)
+      }
+    })
+  }
+
   const evaluateAnswers = (answers) => {
     const scoring = currentQuestions.reduce((acc, question) => {
       const correctAnswer = question.correctAnswerIndex;
@@ -166,6 +178,7 @@ const CategoryQuestions = ({ categoryId, questions, errorMessage }) => {
       }
       return acc;
     }, {correctTotal: 0});
+    sendAnswersSubmittedEvent(scoring);
     setAnswersScoring(scoring);
   };
 
